@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
 import "@/styles/globals.css";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
-  title: "TORENOVATE",
-  description: "TORENOVATE project foundation",
+  title: "TORENOVATE | Public website prototype",
+  description: "TORENOVATE public website information architecture prototype",
 };
 
 export default function RootLayout({
@@ -14,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-CA">
-      <body>{children}</body>
+      <body><SiteHeader />{children}<SiteFooter /></body>
     </html>
   );
 }

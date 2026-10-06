@@ -1,0 +1,8 @@
+import Link from "next/link";
+
+import { projects } from "@/data/projects";
+import { CTASection, PageHero, ProjectCard, Section } from "@/components/ui";
+
+export default function AboutPage() {
+  return <main><PageHero title="About TORENOVATE"><p className="lead">A placeholder company introduction for reviewing the public website structure.</p></PageHero><Section title="Company story / background"><p className="lead">TORENOVATE is presented here as a professional general contractor and renovation partner for homeowners planning connected improvement projects.</p></Section><Section title="General contractor positioning" tone="muted"><p>We coordinate project scopes, trades, timing, and the details needed to move a renovation from early planning to a completed space.</p></Section><Section title="Our working approach"><div className="feature-grid"><div><h3>Clear scope</h3><p>Start with a shared understanding of the project.</p></div><div><h3>Connected delivery</h3><p>Coordinate the work as one renovation, not a collection of tasks.</p></div><div><h3>Practical communication</h3><p>Keep the client journey understandable at every stage.</p></div></div></Section><Section title="Selected project examples" tone="muted"><div className="card-grid">{projects.filter((project) => project.featured).slice(0, 3).map((project) => <ProjectCard key={project.slug} project={project} />)}</div><p className="section-link"><Link href="/projects">View all projects →</Link></p></Section><CTASection title="Explore how we work" description="Review the process before starting your project conversation." href="/process" label="View Our Process" /></main>;
+}

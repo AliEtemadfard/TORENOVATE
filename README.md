@@ -36,7 +36,7 @@ conda activate torenovate
 Set-Location backend
 python -m pip install -e ".[dev]"
 Copy-Item .env.example .env
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 The health endpoint is available at `http://localhost:8000/api/v1/health`.

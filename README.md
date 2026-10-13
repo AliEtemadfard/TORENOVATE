@@ -26,20 +26,49 @@ Browser -> Next.js frontend -> FastAPI /api/v1 -> PostgreSQL
 
 No dependencies are vendored or installed by this foundation.
 
-### Backend
+### Backend environment
 
-From PowerShell:
+The root `environment.yml` is the canonical backend development environment. It
+installs the backend in editable mode and disables Python's per-user package
+directory so packages under `%APPDATA%\Python` cannot override the Conda
+environment.
+
+Create the environment once from the repository root:
 
 ```powershell
-conda create -n torenovate python=3.12 -y
+Set-Location 'F:\ali\work\torenovate\codebase'
+conda env create --file environment.yml
 conda activate torenovate
-Set-Location backend
-python -m pip install -e ".[dev]"
+Set-Location .\backend
 Copy-Item .env.example .env
+```
+
+Update an existing environment after dependency changes:
+
+```powershell
+Set-Location 'F:\ali\work\torenovate\codebase'
+conda env update --file environment.yml
+conda env config vars set --name torenovate PYTHONNOUSERSITE=1
+conda deactivate
+conda activate torenovate
+```
+
+The explicit `conda env config vars` command repairs pre-existing environments
+created before `environment.yml` was added. The deactivate/activate cycle then
+applies the environment variable to the current terminal.
+
+For normal development after the one-time setup:
+
+```powershell
+conda activate torenovate
+Set-Location 'F:\ali\work\torenovate\codebase\backend'
 python -m uvicorn app.main:app --reload
 ```
 
-The health endpoint is available at `http://localhost:8000/api/v1/health`.
+Always use `python -m pip` and `python -m uvicorn` instead of bare `pip` or
+`uvicorn` commands. This guarantees that the command uses the active Conda
+environment's Python interpreter. The health endpoint is available at
+`http://localhost:8000/api/v1/health`.
 
 ### Frontend
 

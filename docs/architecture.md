@@ -20,6 +20,12 @@ deployed independently. Browser-facing environment variables use Next.js's
 `NEXT_PUBLIC_` convention. Backend configuration is loaded from environment
 variables through Pydantic Settings.
 
+The root `environment.yml` is the canonical backend development environment.
+It installs `backend/` in editable mode and sets `PYTHONNOUSERSITE=1` so global
+or per-user Python packages cannot shadow packages installed in the active
+Conda environment. Backend commands should be invoked as `python -m ...` to
+bind them to that interpreter.
+
 ## Frontend
 
 `frontend/` uses Next.js with React, TypeScript, and the App Router. Route files

@@ -1,8 +1,9 @@
 import Link from "next/link";
 
-import { services } from "@/data/services";
+import { getServices } from "@/lib/content";
 
 export function SiteFooter() {
+  const services = getServices();
   return (
     <footer className="site-footer">
       <div className="container footer-grid">

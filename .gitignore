@@ -4,8 +4,11 @@
 !.env.example
 
 # Frontend
+.review-artifacts/
 node_modules/
 .next/
+*.tsbuildinfo
+frontend/next-env.d.ts
 out/
 npm-debug.log*
 yarn-debug.log*
@@ -20,6 +23,7 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .coverage
+*.whl
 htmlcov/
 dist/
 build/

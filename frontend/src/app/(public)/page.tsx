@@ -1,12 +1,13 @@
 import Link from "next/link";
 
-import { projects } from "@/data/projects";
-import { services } from "@/data/services";
+import { getProjects, getServices } from "@/lib/content";
 import { CTASection, PageHero, ProcessSteps, ProjectCard, Section, ServiceCard } from "@/components/ui";
 
 export default function HomePage() {
+  const projects = getProjects();
+  const services = getServices();
   return (
-    <main>
+    <>
       <PageHero eyebrow="General contractor / renovation company" title="Plan your renovation with one coordinated team.">
         <p className="lead">A clear, clickable prototype for exploring TORENOVATE&apos;s services, project work, process, and quote journey.</p>
         <div className="button-row"><Link className="button" href="/contact">Request a Quote</Link><Link className="button button--secondary" href="/projects">View Projects</Link></div>
@@ -17,7 +18,7 @@ export default function HomePage() {
       <Section title="Why TORENOVATE"><div className="feature-grid"><div><h3>Organized project management</h3><p>One clear renovation path from the first conversation to handover.</p></div><div><h3>Quality workmanship</h3><p>Scopes are built around durable, well-sequenced work.</p></div><div><h3>Clear communication</h3><p>The prototype makes the intended client journey easy to review.</p></div><div><h3>Full renovation capability</h3><p>Projects and services are connected rather than fragmented.</p></div></div></Section>
       <Section title="Our process" tone="muted"><ProcessSteps /><Link href="/process">View our process →</Link></Section>
       <CTASection title="Ready to start the conversation?" description="Tell us about your renovation goals and the service that best fits your project." />
-    </main>
+    </>
   );
 }
 

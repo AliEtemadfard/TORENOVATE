@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
 import "@/styles/globals.css";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "TORENOVATE | Public website prototype",
@@ -16,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-CA">
-      <body><SiteHeader />{children}<SiteFooter /></body>
+      <body>{children}</body>
     </html>
   );
 }

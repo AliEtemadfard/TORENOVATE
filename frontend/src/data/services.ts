@@ -1,11 +1,4 @@
-export type Service = {
-  slug: string;
-  title: string;
-  shortDescription: string;
-  description: string;
-  includes: string[];
-  capabilities: string[];
-};
+import type { Service } from "@/types/content";
 
 export const services: Service[] = [
   {
@@ -57,7 +50,3 @@ export const services: Service[] = [
     capabilities: ["Deck replacements", "Outdoor living areas", "Entry updates", "Exterior carpentry"],
   },
 ];
-
-export function getService(slug: string) {
-  return services.find((service) => service.slug === slug);
-}

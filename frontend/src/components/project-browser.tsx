@@ -1,30 +1,38 @@
-"use client";
+import Link from "next/link";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-import { projects } from "@/data/projects";
 import { ProjectCard } from "@/components/ui";
+import type { Project, Service } from "@/types/content";
 
-const filters = [
-  ["all", "All"],
-  ["general-contracting", "Full Home / General Contracting"],
-  ["basement-renovation", "Basement"],
-  ["bathroom-renovation", "Bathroom"],
-  ["kitchen-renovation", "Kitchen"],
-  ["interior-renovation", "Interior"],
-  ["exterior-decks", "Exterior / Decks"],
-] as const;
+export function ProjectBrowser({ projects, services, category }: {
+  projects: Project[];
+  services: Service[];
+  category?: string;
+}) {
+  const validCategory = services.some((service) => service.slug === category);
+  const selected = validCategory ? category : undefined;
+  const shownProjects = selected ? projects.filter((project) => project.serviceSlug === selected) : projects;
+  const filters = [{ slug: "", title: "All projects" }, ...services];
 
-export function ProjectBrowser() {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
-  const selected = searchParams.get("category") ?? "all";
-  const shownProjects = selected === "all" ? projects : projects.filter((project) => project.categorySlug === selected);
-  const select = (category: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (category === "all") params.delete("category"); else params.set("category", category);
-    router.replace(params.size ? `${pathname}?${params.toString()}` : pathname, { scroll: false });
-  };
-  return <><div className="filter-bar" aria-label="Project categories">{filters.map(([value, label]) => <button type="button" className={selected === value ? "filter-button filter-button--active" : "filter-button"} onClick={() => select(value)} key={value}>{label}</button>)}</div><div className="card-grid">{shownProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div></>;
+  return (
+    <>
+      <nav className="filter-bar" aria-label="Project categories">
+        {filters.map(({ slug, title }) => (
+          <Link
+            key={slug}
+            className={!selected && !slug || selected === slug ? "filter-button filter-button--active" : "filter-button"}
+            aria-current={!selected && !slug || selected === slug ? "true" : undefined}
+            href={slug ? `/projects?category=${encodeURIComponent(slug)}` : "/projects"}
+            scroll={false}
+          >{title}</Link>
+        ))}
+      </nav>
+      {category && !validCategory && category !== "all" && <p className="context-note">Category not found. Showing all projects.</p>}
+      <p className="results-count">{shownProjects.length} {shownProjects.length === 1 ? "project" : "projects"}</p>
+      {shownProjects.length ? (
+        <div className="card-grid">{shownProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
+      ) : (
+        <div className="context-note"><p>Project examples for this service will be added here.</p><Link href="/projects">Browse all projects</Link></div>
+      )}
+    </>
+  );
 }

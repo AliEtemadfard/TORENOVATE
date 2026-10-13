@@ -1,8 +1,17 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import type { Project } from "@/data/projects";
-import type { Service } from "@/data/services";
+import type { Project, Service } from "@/types/content";
+
+export function Breadcrumbs({ items }: { items: { label: string; href?: string }[] }) {
+  return (
+    <nav className="breadcrumbs container" aria-label="Breadcrumb">
+      <ol>{items.map((item, index) => (
+        <li key={index}>{item.href ? <Link href={item.href}>{item.label}</Link> : <span aria-current="page">{item.label}</span>}</li>
+      ))}</ol>
+    </nav>
+  );
+}
 
 export function PageHero({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
   return <section className="page-hero"><div className="container"><p className="eyebrow">{eyebrow ?? "TORENOVATE"}</p><h1>{title}</h1>{children}</div></section>;
@@ -21,11 +30,11 @@ export function PlaceholderImage({ label, tall = false }: { label: string; tall?
 }
 
 export function ServiceCard({ service }: { service: Service }) {
-  return <article className="card"><p className="eyebrow">Service</p><h3>{service.title}</h3><p>{service.shortDescription}</p><Link href={`/services/${service.slug}`}>Explore service <span aria-hidden="true">→</span></Link></article>;
+  return <article className="card"><p className="eyebrow">Service</p><h3><Link href={`/services/${service.slug}`}>{service.title} <span aria-hidden="true">→</span></Link></h3><p>{service.shortDescription}</p></article>;
 }
 
 export function ProjectCard({ project }: { project: Project }) {
-  return <article className="card project-card"><PlaceholderImage label={project.category} /><p className="eyebrow">{project.category}</p><h3>{project.title}</h3><p>{project.location}</p><Link href={`/projects/${project.slug}`}>View project <span aria-hidden="true">→</span></Link></article>;
+  return <article className="card project-card"><PlaceholderImage label={project.category} /><p className="eyebrow">{project.category}</p><h3><Link href={`/projects/${project.slug}`}>{project.title} <span aria-hidden="true">→</span></Link></h3><p className="project-location">{project.location}</p><p>{project.summary}</p></article>;
 }
 
 export function ProcessSteps() {
